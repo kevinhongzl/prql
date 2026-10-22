@@ -62,6 +62,18 @@ jobs:
       - name: 🕷️ Build web
         run: task web:build
 
+      # The book for `main`, next to the latest release's at `/book/`; see
+      # `web/book/version-selector.js`. Search engines should only index the
+      # latest release's.
+      - name: 📖 Build the book for main
+        run: |
+          git fetch --depth=1 origin main
+          git worktree add "$RUNNER_TEMP/main" FETCH_HEAD
+          CARGO_TARGET_DIR="$PWD/target" mdbook build "$RUNNER_TEMP/main/web/book" \
+            --dest-dir "$PWD/web/website/public/book/main"
+          find web/website/public/book/main -name '*.html' -exec \
+            sed -i 's|<head>|<head>\n<meta name="robots" content="noindex">|' {} +
+
       - uses: actions/upload-pages-artifact@v5.0.0
         with:
           path: web/website/public/

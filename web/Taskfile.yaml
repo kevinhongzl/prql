@@ -12,6 +12,9 @@ tasks:
       - mkdir -p website/public
       # Copy the book into the website path, using rsync so it only copies new files
       - rsync -ai --checksum --delete --no-times book/book/ website/public/book/
+      # For the version selector's label; see `book/version-selector.js`.
+      - grep -m1 '^version = ' ../Cargo.toml | cut -d'"' -f2 >
+        website/public/book/version.txt
       # (we don't use `build-playground-dependencies`, since that uses the dev profile)
       - cd playground && npm ci && npm run build
       # We place the playground app in a nested path, because we want to use

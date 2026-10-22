@@ -5,7 +5,7 @@ title = "PRQL language book"
 
 [output.html]
 additional-css = ["comparison-table.css"]
-additional-js = ["highlight-prql.js"]
+additional-js = ["highlight-prql.js", "version-selector.js"]
 git-repository-url = "https://github.com/PRQL/prql"
 
 [preprocessor.prql]
